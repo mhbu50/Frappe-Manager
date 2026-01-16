@@ -1122,14 +1122,15 @@ class Bench:
         if not antigravity_path:
             richprint.exit("Google Antigravity IDE binary i.e 'antigravity' is not accessible via cli.")
 
-        # Get container information
-        container_name = self._get_frappe_container_name()
+        # Get container information (hex encoded container name)
+        container_hex = self._get_frappe_container_name()
         workdir = "/workspace/frappe-bench"
 
-        # Build the antigravity command (similar to VS Code remote container)
+        # Build the antigravity command using vscode-remote protocol
+        # Antigravity being a VSCode fork uses the same remote container protocol
         antigravity_cmd = shlex.join([
             antigravity_path,
-            f"--folder-uri=antigravity-remote://attached-container+{container_name}+{workdir}"
+            f"--folder-uri=vscode-remote://attached-container+{container_hex}+{workdir}"
         ])
 
         richprint.print("Attaching to Container")
