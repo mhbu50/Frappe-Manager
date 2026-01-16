@@ -138,6 +138,9 @@ fm code mysite --user frappe --work-dir /workspace/frappe-bench --debugger
 ```
 
 #### Google Antigravity IDE
+
+**Requirements:** Install the [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension in Antigravity IDE before using this feature.
+
 ```bash
 # Open in Antigravity IDE
 fm code mysite --editor antigravity

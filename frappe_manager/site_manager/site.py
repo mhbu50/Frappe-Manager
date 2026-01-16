@@ -953,7 +953,7 @@ class Bench:
         if editor == "antigravity":
             if debugger:
                 self._setup_debugger_config(workdir, editor)
-            self._attach_to_antigravity()
+            self._attach_to_antigravity(workdir)
             return
 
         # VS Code specific logic
@@ -1113,7 +1113,7 @@ class Bench:
 
         richprint.print("Attached to frappe service container.")
 
-    def _attach_to_antigravity(self) -> None:
+    def _attach_to_antigravity(self, workdir: str) -> None:
         """Attach to the bench using Google Antigravity IDE"""
         richprint.change_head("Launching Google Antigravity IDE")
 
@@ -1124,16 +1124,17 @@ class Bench:
 
         # Get container information (hex encoded container name)
         container_hex = self._get_frappe_container_name()
-        workdir = "/workspace/frappe-bench"
 
-        # Build the antigravity command using vscode-remote protocol
-        # Antigravity being a VSCode fork uses the same remote container protocol
+        # Build the antigravity command using same format as VS Code
         antigravity_cmd = shlex.join([
             antigravity_path,
             f"--folder-uri=vscode-remote://attached-container+{container_hex}+{workdir}"
         ])
 
         richprint.print("Attaching to Container")
+        richprint.print("[yellow]Note:[/yellow] This requires the '[blue]Dev Containers[/blue]' extension to be installed in Antigravity IDE")
+        richprint.print("Install it from: Extensions -> Search for 'Dev Containers' by Microsoft")
+
         output = subprocess.run(antigravity_cmd, shell=True)
 
         if output.returncode != 0:
